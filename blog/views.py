@@ -10,4 +10,16 @@ class ArticleView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        return Response()
+        user = request.user # 현재 로그인한 사용자
+
+        articles = Article.objects.filter(author=user)
+
+        title = []
+        for article in articles:
+            title.append(article.title)
+        # print(title)
+
+        # 위의 세줄을 이렇게 줄여 쓸 수 있다.
+        title = [article.title for article in articles] 
+        
+        return Response({'article_list':title})

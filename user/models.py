@@ -62,3 +62,6 @@ class UserProfile(models.Model):
     age = models.IntegerField("나이")
     birthday = models.DateField("생일")
     hobby = models.CharField("취미", max_length=50)
+
+    def __str__(self):
+        return self.user
