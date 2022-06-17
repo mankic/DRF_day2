@@ -57,11 +57,18 @@ class User(AbstractBaseUser):
         return self.is_admin
 
 
+class Hobby(models.Model):
+    name = models.CharField("취미", max_length=20)
+
+    def __str__(self):
+        return self.name
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, verbose_name="사용자", on_delete=models.CASCADE)
     age = models.IntegerField("나이")
     birthday = models.DateField("생일")
-    hobby = models.CharField("취미", max_length=50)
+    hobby = models.ManyToManyField(Hobby, verbose_name="취미")
 
     def __str__(self):
-        return self.user
+        return self.user.username
