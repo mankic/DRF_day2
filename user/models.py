@@ -30,7 +30,7 @@ class User(AbstractBaseUser):
     username = models.CharField("사용자 계정", max_length=50, unique=True)
     password = models.CharField("비밀번호", max_length=128) # 해싱되기 때문에 길게 잡아놓는다.
     email = models.EmailField("이메일 주소", max_length=100)
-    join_date = models.DateField("가입일", auto_now_add=True)
+    join_date = models.DateTimeField("가입일", auto_now_add=True)
 
     is_active = models.BooleanField(default=True)   # True일때 계정 활성화
 
