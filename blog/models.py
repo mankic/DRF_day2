@@ -18,3 +18,11 @@ class Article(models.Model):
     
     def __str__(self):
         return self.title
+
+class Comment(models.Model):
+    name = models.ForeignKey(User, verbose_name='작성자', on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, verbose_name='게시글', on_delete=models.CASCADE)
+    content = models.TextField('본문')
+
+    def __str__(self):
+        return self.content
