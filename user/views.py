@@ -11,19 +11,20 @@ from user.models import Hobby as HobbyModel
 
 from user.serializers import UserSerializer
 
-from DRF_day2.permissions import RegistedMoreThanAWeekUser
+# from DRF_day2.permissions import RegistedMoreThanAWeekUser
 
 # Create your views here.
 class UserView(APIView):
     # permission_classes = [permissions.AllowAny] # 모두 허용
-    # permission_classes = [permissions.IsAuthenticated] # 로그인된 사용자만
+    permission_classes = [permissions.IsAuthenticated] # 로그인된 사용자만
     # permission_classes = [permissions.IsAdminUser] # 관리자만
-    permission_classes = [RegistedMoreThanAWeekUser]
+    # permission_classes = [RegistedMoreThanAWeekUser]
 
     # 사용자 정보 조회
     def get(self, request):
         user = request.user
-        
+        user_serializer = UserSerializer(user, context={"request":request}).data
+
         # 역참조를 사용했을때
         # OneToOne 필드는 예외로 _set이 붙지 않는다.
         # hobbys = user.userprofile.hobby.all()
@@ -43,7 +44,7 @@ class UserView(APIView):
             # hobby_members = list(hobby_members)
             # print(f"hobby : {hobby.name} / hobby members : {hobby_members}")
 
-        return Response(UserSerializer(user).data)
+        return Response(user_serializer)
     
     # 회원 가입
     def post(self, request):
