@@ -23,7 +23,7 @@ class ArticleView(APIView):
         #Field lookups
         # articles = Article.objects.filter(join_date__lte=today() - timedelta(day=3))
         # articles = Article.objects.filter(title__contains=user)
-        articles = Article.objects.filter(start_view__lte=datetime.now(), end_view__gte=datetime.now())
+        articles = Article.objects.filter(start_view__lte=datetime.now(), end_view__gte=datetime.now()).order_by(created_at)
 
         # user = UserModel.objects.create(**request.data)
 
