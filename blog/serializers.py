@@ -28,7 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class UserArticleSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField()
-    comments = CommentSerializer(many=True, source='comment_set')
+    comments = CommentSerializer(many=True, source='comment_set', read_only=True)   # read_only 생성,수정하지않고 읽기전용
     # comment_set = CommentSerializer(many=True)
 
     def get_category(self,obj):
@@ -36,6 +36,8 @@ class UserArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ArticleModel
-        fields = '["category","title","content","comments"]'
+        fields = ["author","category","title","content","comments","start_view","end_view"]
+
+        # SerializerMethodField 와 read_only 는 is_valid 안함.
 
 

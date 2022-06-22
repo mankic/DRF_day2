@@ -1,4 +1,5 @@
 from unicodedata import category
+from datetime import datetime
 from django.db import models
 from user.models import User
 
@@ -15,8 +16,8 @@ class Article(models.Model):
     author = models.ForeignKey(User, verbose_name='작성자', on_delete=models.SET_NULL, null=True)
     title = models.CharField('제목', max_length=20)
     content = models.TextField('내용')
-    start_view = models.DateField('노출시작', null=True)
-    end_view = models.DateField('노출종료', null=True)
+    start_view = models.DateField('노출시작', default=datetime.now())
+    end_view = models.DateField('노출종료', default=datetime.now())
     
     def __str__(self):
         return self.title

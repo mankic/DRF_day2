@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from rest_framework import permissions  # 권한 설정
+from rest_framework import permissions, status  # 권한 설정
 from rest_framework.response import Response
 
 from django.contrib.auth import login, authenticate, logout
@@ -48,11 +48,27 @@ class UserView(APIView):
     
     # 회원 가입
     def post(self, request):
-        return Response({'message':'post method!!'})
+        user_serializer = UserSerializer(data=request.data, context={"request":request})
+
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response(user_serializer.data, status=status.HTTP_200_OK)
+        # user_serializer.is_valid(raise_exception=True)
+
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     # 회원 정보 수정
-    def put(self, request):
-        return Response({'message':'put method!!'})
+    def put(self, request, obj_id):
+        # user = request.user
+        user = UserModel.objects.get(id=obj_id)
+        user_serializer = UserSerializer(user, data=request.data, partial=True, context={"request":request})
+        # partial=True : Field 에 항목들이 전부 들어가지 않아도 에러처러 하지 않음.
+
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response(user_serializer.data, status=status.HTTP_200_OK)
+
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     # 회원 탈퇴
     def delete(self, request):

@@ -38,7 +38,7 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'username'    # ID로 사용할 필드 지정.
 
-    REQUIRED_FIELDS: []    # createsuperuser 실행해서 입력받을 값들 지정.
+    REQUIRED_FIELDS = []    # createsuperuser 실행해서 입력받을 값들 지정.
 
     objects = UserManager()
 
@@ -72,3 +72,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+

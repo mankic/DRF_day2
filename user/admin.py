@@ -7,6 +7,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 # Stackedinline은 세로로, TabularInline은 가로로
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
+    filter_horizontal = ['hobby']
 
 class UserAdmin(BaseUserAdmin):
     list_display = ('id', 'username', 'email')  # object 목록에 띄워줄 필드를 지정한다.
@@ -31,13 +32,13 @@ class UserAdmin(BaseUserAdmin):
         )
 
     def has_add_permission(self, request, obj=None): # 추가 권한
-        return False
+        return True
 
     def has_delete_permission(self, request, obj=None): # 삭제 권한
         return False
 
     def has_change_permission(self, request, obj=None): # 수정 권한
-        return False
+        return True
 
 
 # Register your models here.
